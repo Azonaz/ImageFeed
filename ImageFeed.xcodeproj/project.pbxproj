@@ -66,6 +66,7 @@
 				84C93A2A2A029615009891B9 /* Resources */,
 				84481CFE29FAA15C002132B4 /* AppDelegate.swift */,
 				84481D0029FAA15C002132B4 /* SceneDelegate.swift */,
+				84481D0C29FAA15C002132B4 /* Info.plist */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -75,7 +76,6 @@
 			children = (
 				84481D0929FAA15C002132B4 /* LaunchScreen.storyboard */,
 				84481D0729FAA15C002132B4 /* Assets.xcassets */,
-				84481D0C29FAA15C002132B4 /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
