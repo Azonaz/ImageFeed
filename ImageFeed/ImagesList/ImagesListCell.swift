@@ -2,7 +2,7 @@ import UIKit
 
 final class ImagesListCell: UITableViewCell {
     static var reuseIdentifier = "ImagesListCell"
-    var gradientLayer: CAGradientLayer!
+    private var gradientLayer: CAGradientLayer!
     private let gradientHeight = 30.0
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
@@ -21,7 +21,7 @@ final class ImagesListCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - 30, width: cellImage.bounds.width, height: 30)
+        gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight, width: cellImage.bounds.width, height: gradientHeight)
     }
 }
 

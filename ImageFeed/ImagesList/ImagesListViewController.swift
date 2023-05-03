@@ -40,7 +40,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController {
     
-    func configCell(for cell:ImagesListCell, with indexPath: IndexPath) {
+    private func configCell(for cell:ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
             return
         }
@@ -49,9 +49,6 @@ extension ImagesListViewController {
         let isLiked = indexPath.row % 2 == 0
         let likedImage = isLiked ? UIImage(named: "LikeOn") : UIImage(named: "LikeOff")
         cell.likeButton.setImage(likedImage, for: .normal)
-        let selectView = UIView()
-        selectView.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
-        cell.selectedBackgroundView = selectView
     }    
 }
 
