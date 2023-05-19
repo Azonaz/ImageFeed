@@ -8,6 +8,10 @@ final class ProfileViewController: UIViewController {
     @IBOutlet private var descriptionLabel: UILabel!
     @IBOutlet private var logoutButton: UIButton!
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
