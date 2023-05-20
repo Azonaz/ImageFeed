@@ -157,7 +157,7 @@
                         <color key="backgroundColor" name="ypBlack"/>
                         <constraints>
                             <constraint firstItem="fxW-kk-VsI" firstAttribute="centerX" secondItem="Qbl-AC-SZO" secondAttribute="centerX" id="8oz-yi-Sfj"/>
-                            <constraint firstItem="fxW-kk-VsI" firstAttribute="bottom" secondItem="Qbl-AC-SZO" secondAttribute="bottom" constant="-51" id="ICh-W5-Eit"/>
+                            <constraint firstItem="fxW-kk-VsI" firstAttribute="bottom" secondItem="KP5-QH-Sdj" secondAttribute="bottom" constant="-51" id="ICh-W5-Eit"/>
                             <constraint firstItem="Oig-Vp-fCZ" firstAttribute="bottom" secondItem="KP5-QH-Sdj" secondAttribute="bottom" id="Pd0-zi-gBe"/>
                             <constraint firstItem="6P1-Zd-qEc" firstAttribute="top" secondItem="Qbl-AC-SZO" secondAttribute="top" constant="9" id="RWt-jW-XWH"/>
                             <constraint firstItem="Oig-Vp-fCZ" firstAttribute="trailing" secondItem="Qbl-AC-SZO" secondAttribute="trailing" id="ft4-YJ-Wu1"/>

@@ -2,11 +2,11 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    @IBOutlet private var avatarImage: UIImageView!
-    @IBOutlet private var nameLabel: UILabel!
-    @IBOutlet private var loginNameLabel: UILabel!
-    @IBOutlet private var descriptionLabel: UILabel!
-    @IBOutlet private var logoutButton: UIButton!
+    private var avatarImage = UIImageView()
+    private var nameLabel: UILabel!
+    private var loginNameLabel: UILabel!
+    private var descriptionLabel: UILabel!
+    private var logoutButton: UIButton!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -23,7 +23,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func addAvatarImage() {
-        avatarImage = UIImageView()
         avatarImage.image = UIImage(named: "Avatar")
         avatarImage.contentMode = .scaleAspectFill
         avatarImage.clipsToBounds = true
@@ -85,7 +84,7 @@ final class ProfileViewController: UIViewController {
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
     }
     
-    @IBAction private func didTapLogoutButton() {
+    private func didTapLogoutButton() {
     }
 }
 
