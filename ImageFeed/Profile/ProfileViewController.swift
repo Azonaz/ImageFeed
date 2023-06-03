@@ -3,10 +3,10 @@ import UIKit
 final class ProfileViewController: UIViewController {
     
     private var avatarImage = UIImageView()
-    private var nameLabel: UILabel!
-    private var loginNameLabel: UILabel!
-    private var descriptionLabel: UILabel!
-    private var logoutButton: UIButton!
+    private var nameLabel = UILabel()
+    private var loginNameLabel = UILabel()
+    private var descriptionLabel = UILabel()
+    private var logoutButton = UIButton()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -37,7 +37,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func addNameLabel(){
-        nameLabel = UILabel()
         nameLabel.text = "Екатерина Новикова"
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
         nameLabel.textColor = .ypWhite
@@ -48,7 +47,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func addLoginNameLabel(){
-        loginNameLabel = UILabel()
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         loginNameLabel.textColor = .ypGray
@@ -59,7 +57,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func addDescriptionLabel(){
-        descriptionLabel = UILabel()
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         descriptionLabel.textColor = .ypWhite
