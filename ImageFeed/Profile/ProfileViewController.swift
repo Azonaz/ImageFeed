@@ -33,10 +33,11 @@ final class ProfileViewController: UIViewController {
         avatarImage.heightAnchor.constraint(equalToConstant: 70).isActive = true
         avatarImage.widthAnchor.constraint(equalToConstant: 70).isActive = true
         avatarImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
-        avatarImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        avatarImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                             constant: 16).isActive = true
     }
     
-    private func addNameLabel(){
+    private func addNameLabel() {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
         nameLabel.textColor = .ypWhite
@@ -46,7 +47,7 @@ final class ProfileViewController: UIViewController {
         nameLabel.leadingAnchor.constraint(equalTo: avatarImage.leadingAnchor).isActive = true
     }
     
-    private func addLoginNameLabel(){
+    private func addLoginNameLabel() {
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         loginNameLabel.textColor = .ypGray
@@ -56,7 +57,7 @@ final class ProfileViewController: UIViewController {
         loginNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
     }
     
-    private func addDescriptionLabel(){
+    private func addDescriptionLabel() {
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         descriptionLabel.textColor = .ypWhite
@@ -78,10 +79,10 @@ final class ProfileViewController: UIViewController {
         logoutButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         logoutButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         logoutButton.centerYAnchor.constraint(equalTo: avatarImage.centerYAnchor).isActive = true
-        logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
+        logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                               constant: -24).isActive = true
     }
     
     private func didTapLogoutButton() {
     }
 }
-

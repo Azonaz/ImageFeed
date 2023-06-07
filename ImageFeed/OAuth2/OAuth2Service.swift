@@ -45,9 +45,9 @@ extension OAuth2Service {
     private func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(
             path: "/oauth/token"
-            + "?client_id=\(AccessKey)"
-            + "&&client_secret=\(SecretKey)"
-            + "&&redirect_uri=\(RedirectURI)"
+            + "?client_id=\(accessKey)"
+            + "&&client_secret=\(secretKey)"
+            + "&&redirect_uri=\(redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",
@@ -73,7 +73,7 @@ extension OAuth2Service {
 extension URLRequest {
     static func makeHTTPRequest(path: String,
                                 httpMethod: String,
-                                baseURL: URL = DefaultBaseURL) -> URLRequest {
+                                baseURL: URL = defaultBaseURL) -> URLRequest {
         var request = URLRequest(url: URL(string: path, relativeTo: baseURL)!)
         request.httpMethod = httpMethod
         return request
@@ -97,8 +97,7 @@ extension URLSession {
         let task = dataTask(with: request, completionHandler: { data, response, error in
             if let data = data,
                let response = response,
-               let statusCode = (response as? HTTPURLResponse)?.statusCode
-            {
+               let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 if 200 ..< 300 ~= statusCode {
                     fulfillCompletion(.success(data))
                 } else {

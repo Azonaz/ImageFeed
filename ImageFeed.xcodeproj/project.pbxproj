@@ -14,6 +14,7 @@
 		84481D0629FAA15C002132B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84481D0429FAA15C002132B4 /* Main.storyboard */; };
 		84481D0829FAA15C002132B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84481D0729FAA15C002132B4 /* Assets.xcassets */; };
 		84481D0B29FAA15C002132B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84481D0929FAA15C002132B4 /* LaunchScreen.storyboard */; };
+		84CE03452A30C9300053372D /* LightStatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE03442A30C9300053372D /* LightStatusBarController.swift */; };
 		84D74C602A2771290089AE41 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D74C5F2A2771290089AE41 /* AuthViewController.swift */; };
 		84D74C622A2772460089AE41 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D74C612A2772460089AE41 /* WebViewViewController.swift */; };
 		84D90D972A24C9B0007927BA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D90D962A24C9B0007927BA /* Constants.swift */; };
@@ -35,6 +36,7 @@
 		84481D0729FAA15C002132B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84481D0A29FAA15C002132B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84481D0C29FAA15C002132B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84CE03442A30C9300053372D /* LightStatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarController.swift; sourceTree = "<group>"; };
 		84D74C5F2A2771290089AE41 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		84D74C612A2772460089AE41 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		84D90D962A24C9B0007927BA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				84D74C5F2A2771290089AE41 /* AuthViewController.swift */,
 				84D74C612A2772460089AE41 /* WebViewViewController.swift */,
+				84CE03442A30C9300053372D /* LightStatusBarController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 				84481CF729FAA15C002132B4 /* Sources */,
 				84481CF829FAA15C002132B4 /* Frameworks */,
 				84481CF929FAA15C002132B4 /* Resources */,
+				84D020F52A2E2D100071B3E9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -227,6 +231,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		84D020F52A2E2D100071B3E9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		84481CF729FAA15C002132B4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -240,6 +264,7 @@
 				84F4E9FF2A2A10F7000CBE5E /* OAuth2Service.swift in Sources */,
 				84F4EA042A2A220E000CBE5E /* SplashViewController.swift in Sources */,
 				84DA29EF2A125B4B00301D7E /* SingleImageViewController.swift in Sources */,
+				84CE03452A30C9300053372D /* LightStatusBarController.swift in Sources */,
 				84E11C4D2A0114BA00D9AB6C /* ImagesListCell.swift in Sources */,
 				84E11C4A2A0108C800D9AB6C /* UIColor+Extensions.swift in Sources */,
 				84481D0129FAA15C002132B4 /* SceneDelegate.swift in Sources */,

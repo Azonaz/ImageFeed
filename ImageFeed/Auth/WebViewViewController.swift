@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+fileprivate let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
@@ -10,22 +10,26 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
-    @IBOutlet private var webView: WKWebView!
-    @IBOutlet private var progressView: UIProgressView!
+    @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var progressView: UIProgressView!
     
     weak var delegate: WebViewViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.navigationDelegate = self
-        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
+        guard var urlComponents = URLComponents(string: unsplashAuthorizeURLString) else {
+            return
+        }
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: AccessKey),
-            URLQueryItem(name: "redirect_uri", value: RedirectURI),
+            URLQueryItem(name: "client_id", value: accessKey),
+            URLQueryItem(name: "redirect_uri", value: redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: AccessScope)
+            URLQueryItem(name: "scope", value: accessScope)
         ]
-        let url = urlComponents.url!
+        guard let url = urlComponents.url else {
+            return
+        }
         
         let request = URLRequest(url: url)
         webView.load(request)
@@ -50,7 +54,7 @@ final class WebViewViewController: UIViewController {
     override func observeValue(
         forKeyPath keyPath: String?,
         of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
+        change: [NSKeyValueChangeKey: Any]?,
         context: UnsafeMutableRawPointer?
     ) {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
@@ -61,7 +65,8 @@ final class WebViewViewController: UIViewController {
     }
     
     private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
+        let progress = Float(webView.estimatedProgress)
+        progressView.setProgress(progress, animated: true)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
@@ -91,8 +96,7 @@ extension WebViewViewController: WKNavigationDelegate {
             let urlComponents = URLComponents(string: url.absoluteString),
             urlComponents.path == "/oauth/authorize/native",
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
-        {
+            let codeItem = items.first(where: { $0.name == "code" }) {
             return codeItem.value
         } else {
             return nil
