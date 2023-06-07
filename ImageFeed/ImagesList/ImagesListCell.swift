@@ -7,7 +7,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var cellImage: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         gradientLayer = CAGradientLayer()
@@ -15,13 +15,14 @@ final class ImagesListCell: UITableViewCell {
             gradientLayer.colors = [gradient1, gradient2]
         }
         gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight, width: cellImage.bounds.width, height: gradientHeight)
+        gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight,
+                                     width: cellImage.bounds.width, height: gradientHeight)
         cellImage.layer.insertSublayer(gradientLayer, at: 0)
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight, width: cellImage.bounds.width, height: gradientHeight)
+        gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight,
+                                     width: cellImage.bounds.width, height: gradientHeight)
     }
 }
-
