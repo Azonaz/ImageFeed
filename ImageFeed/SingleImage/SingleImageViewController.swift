@@ -8,14 +8,14 @@ final class SingleImageViewController: UIViewController {
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = image
@@ -23,17 +23,17 @@ final class SingleImageViewController: UIViewController {
         scrollView.maximumZoomScale = 3
         rescaleAndCenterImageInScrollView(image: image)
     }
-    
+
     @IBAction private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
-    
+
     @IBAction private func didTapShareButton(_ sender: UIButton) {
         guard let image = image else { return }
         let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         present(share, animated: true)
     }
-    
+
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
@@ -56,11 +56,11 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
-    
+
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         centerImageAfterZoom()
     }
-    
+
     private func centerImageAfterZoom() {
         guard let imageView = imageView else { return }
         let imageSize = imageView.frame.size
