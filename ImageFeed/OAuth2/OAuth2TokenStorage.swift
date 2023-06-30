@@ -3,6 +3,7 @@ import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage {
     private let keychainWrapper = KeychainWrapper.standard
+    static let shared = OAuth2TokenStorage()
 
     private enum Keys: String {
         case token = "com.imagefeed.authkey"

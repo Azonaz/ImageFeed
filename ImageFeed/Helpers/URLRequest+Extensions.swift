@@ -68,4 +68,16 @@ enum URLRequests {
             ]
         )
     }
+    
+    static func photos(page: Int, perPage: Int, token: String) -> URLRequest {
+        return URLRequest.makeHTTPRequest(
+            path: "photos",
+            httpMethod: .get,
+        queryItems: [
+        URLQueryItem(name: "page", value: String(page)),
+        URLQueryItem(name: "per_page", value: String(perPage))
+        ],
+        headers: [("Authorization", "Bearer \(token)")]
+        )
+    }
 }

@@ -6,3 +6,4 @@ let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
 let accessScope = "public+read_user+write_likes"
 let defaultBaseURL = URL(string: "https://api.unsplash.com/")!
 let unsplashAuthorizeURL = URL(string: "https://unsplash.com/")!
+let photosPerPage = 10

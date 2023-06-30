@@ -23,6 +23,9 @@
 		84C9AC202A3C88FD009F71BA /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9AC1F2A3C88FD009F71BA /* ProfileService.swift */; };
 		84C9AC222A3C8A58009F71BA /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9AC212A3C8A58009F71BA /* ProfileModel.swift */; };
 		84C9AC242A3C8A80009F71BA /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C9AC232A3C8A80009F71BA /* ProfileResult.swift */; };
+		84CC48922A4EBFFE009CE491 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC48912A4EBFFE009CE491 /* ImagesListService.swift */; };
+		84CC48952A4EC063009CE491 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC48942A4EC063009CE491 /* PhotoModel.swift */; };
+		84CC48972A4ECFE6009CE491 /* PhotoResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC48962A4ECFE6009CE491 /* PhotoResultModel.swift */; };
 		84CCBB6E2A447B5900830547 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CCBB6D2A447B5900830547 /* OAuthTokenResponseBody.swift */; };
 		84CCBB712A44892100830547 /* AtertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CCBB702A44892100830547 /* AtertPresenter.swift */; };
 		84CCBB732A44893300830547 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CCBB722A44893300830547 /* AlertModel.swift */; };
@@ -60,6 +63,9 @@
 		84C9AC1F2A3C88FD009F71BA /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		84C9AC212A3C8A58009F71BA /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		84C9AC232A3C8A80009F71BA /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
+		84CC48912A4EBFFE009CE491 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
+		84CC48942A4EC063009CE491 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
+		84CC48962A4ECFE6009CE491 /* PhotoResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResultModel.swift; sourceTree = "<group>"; };
 		84CCBB6D2A447B5900830547 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		84CCBB702A44892100830547 /* AtertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtertPresenter.swift; sourceTree = "<group>"; };
 		84CCBB722A44893300830547 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
@@ -170,6 +176,16 @@
 			path = ProfileService;
 			sourceTree = "<group>";
 		};
+		84CC48932A4EC010009CE491 /* ImagesListService */ = {
+			isa = PBXGroup;
+			children = (
+				84CC48912A4EBFFE009CE491 /* ImagesListService.swift */,
+				84CC48942A4EC063009CE491 /* PhotoModel.swift */,
+				84CC48962A4ECFE6009CE491 /* PhotoResultModel.swift */,
+			);
+			path = ImagesListService;
+			sourceTree = "<group>";
+		};
 		84CCBB6F2A4488FC00830547 /* AlertPresenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +230,7 @@
 			children = (
 				84481D0229FAA15C002132B4 /* ImagesListViewController.swift */,
 				84E11C4C2A0114BA00D9AB6C /* ImagesListCell.swift */,
+				84CC48932A4EC010009CE491 /* ImagesListService */,
 			);
 			path = ImagesList;
 			sourceTree = "<group>";
@@ -337,6 +354,7 @@
 				842064152A0E3B4D00172FB5 /* ProfileViewController.swift in Sources */,
 				84481D0329FAA15C002132B4 /* ImagesListViewController.swift in Sources */,
 				84481CFF29FAA15C002132B4 /* AppDelegate.swift in Sources */,
+				84CC48952A4EC063009CE491 /* PhotoModel.swift in Sources */,
 				84F4E9FF2A2A10F7000CBE5E /* OAuth2Service.swift in Sources */,
 				84CCBB732A44893300830547 /* AlertModel.swift in Sources */,
 				84CCBB6E2A447B5900830547 /* OAuthTokenResponseBody.swift in Sources */,
@@ -347,6 +365,8 @@
 				84CE03452A30C9300053372D /* LightStatusBarController.swift in Sources */,
 				843D04A02A4076E50067BAD9 /* UserResult.swift in Sources */,
 				84C86AD32A499D8700E75957 /* URLRequest+Extensions.swift in Sources */,
+				84CC48972A4ECFE6009CE491 /* PhotoResultModel.swift in Sources */,
+				84CC48922A4EBFFE009CE491 /* ImagesListService.swift in Sources */,
 				84CCBB712A44892100830547 /* AtertPresenter.swift in Sources */,
 				84C9AC242A3C8A80009F71BA /* ProfileResult.swift in Sources */,
 				84E11C4D2A0114BA00D9AB6C /* ImagesListCell.swift in Sources */,
