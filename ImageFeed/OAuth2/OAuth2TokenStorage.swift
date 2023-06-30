@@ -1,13 +1,20 @@
 import Foundation
+import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage {
-    private let userDefaults = UserDefaults.standard
+    private let keychainWrapper = KeychainWrapper.standard
+
+    private enum Keys: String {
+        case token = "com.imagefeed.authkey"
+    }
+
     var token: String? {
         get {
-            return userDefaults.string(forKey: "token")
+            keychainWrapper.string(forKey: Keys.token.rawValue)
         }
         set {
-            return userDefaults.set(newValue, forKey: "token")
+            guard let newValue else { return }
+            keychainWrapper.set(newValue, forKey: Keys.token.rawValue)
         }
     }
 }

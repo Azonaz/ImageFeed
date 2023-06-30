@@ -28,14 +28,7 @@ class ImagesListViewController: UIViewController {
            let indexPath = sender as? IndexPath {
             let image = UIImage(named: photosName[indexPath.row])
             viewController.image = image
-        }
-//        if segue.identifier == showSingleImageSegueIdentifier {
-//            let viewController = segue.destination as! SingleImageViewController
-//            let indexPath = sender as! IndexPath
-//            let image = UIImage(named: photosName[indexPath.row])
-//            viewController.image = image
-//        }
-        else {
+        } else {
             super.prepare(for: segue, sender: sender)
         }
     }
