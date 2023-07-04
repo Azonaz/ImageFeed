@@ -3,7 +3,7 @@ import UIKit
 final class ImagesListService {
     static let shared = ImagesListService()
     private (set) var photos: [Photo] = []
-    static let DidChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastLoadedPage: Int = 0
@@ -25,7 +25,7 @@ final class ImagesListService {
                 DispatchQueue.main.async {
                     let newPhotos = self.convert(photoResult: body)
                     self.photos.append(contentsOf: newPhotos)
-                    NotificationCenter.default.post(name: ImagesListService.DidChangeNotification,
+                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification,
                                                     object: self)
                     self.lastLoadedPage += 1
                 }
@@ -48,5 +48,36 @@ final class ImagesListService {
                   largeImageURL: $0.urls.full,
                   isLiked: $0.isLiked)
         }
+    }
+
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        guard task == nil, let token = token else { return }
+        let request = isLike ? URLRequests.likes(photoID: photoId, method: .post, token: token)
+        : URLRequests.likes(photoID: photoId, method: .delete, token: token)
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<PhotoLikeResult, Error>) in
+            guard let self else { return }
+            switch result {
+            case .success(let body):
+                DispatchQueue.main.async {
+                    if let index = self.photos.firstIndex(where: { $0.id == photoId}) {
+                        let photo = self.photos[index]
+                        let newPhoto = Photo(id: photo.id,
+                                             size: photo.size,
+                                             createdAt: photo.createdAt,
+                                             welcomeDescription: photo.welcomeDescription,
+                                             thumbImageURL: photo.thumbImageURL,
+                                             largeImageURL: photo.largeImageURL,
+                                             isLiked: body.photo.isLiked)
+                        self.photos[index] = newPhoto
+                    }
+                    completion(.success(()))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            self.task = nil
+        }
+        self.task = task
+        task.resume()
     }
 }

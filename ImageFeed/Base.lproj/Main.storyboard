@@ -52,6 +52,9 @@
                                                     </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="LikeOff"/>
+                                                    <connections>
+                                                        <action selector="likeButtonClick:" destination="CbE-VE-fG0" eventType="touchUpInside" id="tQ0-VC-S7e"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -71,7 +74,7 @@
                                         <connections>
                                             <outlet property="cellImage" destination="WnI-UC-rrg" id="B1u-la-UQd"/>
                                             <outlet property="dateLabel" destination="es7-qJ-0DF" id="D70-vD-uLH"/>
-                                            <outlet property="likeButton" destination="bJC-nC-Z7S" id="eHQ-lJ-zWx"/>
+                                            <outlet property="likeButton" destination="bJC-nC-Z7S" id="Jsr-aY-b4z"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -2,11 +2,6 @@ import UIKit
 
 extension URLRequest {
 
-    enum HTTPMethod: String {
-        case get = "GET"
-        case post = "POST"
-    }
-
     static func makeHTTPRequest(path: String,
                                 httpMethod: HTTPMethod,
                                 baseURL: URL = defaultBaseURL,
@@ -21,6 +16,12 @@ extension URLRequest {
         }
         return request
     }
+}
+
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case delete = "DELETE"
 }
 
 enum URLRequests {
@@ -68,16 +69,23 @@ enum URLRequests {
             ]
         )
     }
-    
+
     static func photos(page: Int, perPage: Int, token: String) -> URLRequest {
         return URLRequest.makeHTTPRequest(
             path: "photos",
             httpMethod: .get,
-        queryItems: [
-        URLQueryItem(name: "page", value: String(page)),
-        URLQueryItem(name: "per_page", value: String(perPage))
-        ],
-        headers: [("Authorization", "Bearer \(token)")]
+            queryItems: [
+                URLQueryItem(name: "page", value: String(page)),
+                URLQueryItem(name: "per_page", value: String(perPage))
+            ],
+            headers: [("Authorization", "Bearer \(token)")]
         )
+    }
+
+    static func likes(photoID: String, method: HTTPMethod, token: String) -> URLRequest {
+        return URLRequest.makeHTTPRequest(
+            path: "photos/\(photoID)/like",
+            httpMethod: method,
+            headers: [("Authorization", "Bearer \(token)")])
     }
 }
