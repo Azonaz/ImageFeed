@@ -35,6 +35,7 @@
 		84CE03452A30C9300053372D /* LightStatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE03442A30C9300053372D /* LightStatusBarController.swift */; };
 		84D2284B2A3B2C9A001E907B /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 84D2284A2A3B2C9A001E907B /* ProgressHUD */; };
 		84D2284D2A3B4497001E907B /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2284C2A3B4497001E907B /* UIBlockingProgressHUD.swift */; };
+		84D2DEC62A5454060091F142 /* CAGradientLayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2DEC52A5454060091F142 /* CAGradientLayer+Extensions.swift */; };
 		84D74C602A2771290089AE41 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D74C5F2A2771290089AE41 /* AuthViewController.swift */; };
 		84D74C622A2772460089AE41 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D74C612A2772460089AE41 /* WebViewViewController.swift */; };
 		84D7CB582A431EEB00F40D0B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D7CB572A431EEB00F40D0B /* TabBarController.swift */; };
@@ -76,6 +77,7 @@
 		84CCBB762A44AC1800830547 /* WebViewViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerDelegate.swift; sourceTree = "<group>"; };
 		84CE03442A30C9300053372D /* LightStatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightStatusBarController.swift; sourceTree = "<group>"; };
 		84D2284C2A3B4497001E907B /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		84D2DEC52A5454060091F142 /* CAGradientLayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extensions.swift"; sourceTree = "<group>"; };
 		84D74C5F2A2771290089AE41 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		84D74C612A2772460089AE41 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		84D7CB572A431EEB00F40D0B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				84CC48A72A4EFF0F009CE491 /* Array+Extensions.swift */,
+				84D2DEC52A5454060091F142 /* CAGradientLayer+Extensions.swift */,
 				84E11C492A0108C800D9AB6C /* UIColor+Extensions.swift */,
 				84C86AD02A499BA600E75957 /* URLSession+Extensions.swift */,
 				84C86AD22A499D8700E75957 /* URLRequest+Extensions.swift */,
@@ -354,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C9AC222A3C8A58009F71BA /* ProfileModel.swift in Sources */,
+				84D2DEC62A5454060091F142 /* CAGradientLayer+Extensions.swift in Sources */,
 				84F4EA012A2A1274000CBE5E /* OAuth2TokenStorage.swift in Sources */,
 				84C9AC202A3C88FD009F71BA /* ProfileService.swift in Sources */,
 				84D74C622A2772460089AE41 /* WebViewViewController.swift in Sources */,

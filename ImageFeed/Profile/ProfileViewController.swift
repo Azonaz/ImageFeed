@@ -6,6 +6,7 @@ final class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     private let oAuth2TokenStorage = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var animationLayers = Set<CALayer>()
     private lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
@@ -71,6 +72,10 @@ final class ProfileViewController: UIViewController {
                 guard let self else { return }
                 self.updateAvatar()
             }
+        setAvatarGradient()
+        setNameGradient()
+        setLoginGradient()
+        setDescriptionGradient()
         updateAvatar()
     }
 
@@ -109,7 +114,7 @@ final class ProfileViewController: UIViewController {
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                                                constant: -24).isActive = true
     }
-
+    
     @objc private func didTapLogoutButton() {
         showLogOutAlert()
     }
@@ -131,6 +136,7 @@ final class ProfileViewController: UIViewController {
         let placeholderImage = UIImage(systemName: "no_avatar")
         avatarImage.kf.indicatorType = .activity
         avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
+        removeGradient()
     }
 
     private func showLogOutAlert() {
@@ -149,5 +155,74 @@ final class ProfileViewController: UIViewController {
             window.rootViewController = SplashViewController()},
                                secondButtonCompletion: { })
         AlertPresenter.showAlert(in: self, model: model)
+    }
+}
+
+extension ProfileViewController {
+    private func setGradient(for layer: CALayer, with label: UILabel) {
+        let gradient = CAGradientLayer()
+        let fittingSize = label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: label.bounds.height))
+        let textWidth = fittingSize.width
+        let textHeight = fittingSize.height
+        gradient.frame = CGRect(origin: .zero, size: CGSize(width: textWidth, height: textHeight))
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = 9
+        gradient.masksToBounds = true
+        animationLayers.insert(gradient)
+        layer.addSublayer(gradient)
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradient.add(gradientChangeAnimation, forKey: "locationsChange")
+    }
+
+    private func setNameGradient() {
+        setGradient(for: nameLabel.layer, with: nameLabel)
+    }
+
+    private func setLoginGradient() {
+        setGradient(for: loginNameLabel.layer, with: loginNameLabel)
+    }
+
+    private func setDescriptionGradient() {
+        setGradient(for: descriptionLabel.layer, with: descriptionLabel)
+    }
+
+    private func setAvatarGradient() {
+        let avatarGradient = CAGradientLayer()
+        avatarGradient.frame = CGRect(origin: .zero, size: CGSize(width: 70, height: 70))
+        avatarGradient.locations = [0, 0.1, 0.3]
+        avatarGradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        avatarGradient.startPoint = CGPoint(x: 0, y: 0.5)
+        avatarGradient.endPoint = CGPoint(x: 1, y: 0.5)
+        avatarGradient.cornerRadius = 35
+        avatarGradient.masksToBounds = true
+        animationLayers.insert(avatarGradient)
+        avatarImage.layer.addSublayer(avatarGradient)
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        avatarGradient.add(gradientChangeAnimation, forKey: "locationsChange")
+    }
+
+    private func removeGradient() {
+        animationLayers.forEach { layer in
+            layer.removeFromSuperlayer()
+        }
     }
 }
