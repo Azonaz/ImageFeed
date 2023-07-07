@@ -1,12 +1,17 @@
 import UIKit
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imagesListCellDidTapLike(_ cell: UITableViewCell)
+}
+
 final class ImagesListCell: UITableViewCell {
-    static var reuseIdentifier = "ImagesListCell"
+    static let reuseIdentifier = "ImagesListCell"
     private var gradientLayer: CAGradientLayer!
     private let gradientHeight = 30.0
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var cellImage: UIImageView!
+    weak var delegate: ImagesListCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,5 +29,19 @@ final class ImagesListCell: UITableViewCell {
         super.layoutSubviews()
         gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight,
                                      width: cellImage.bounds.width, height: gradientHeight)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImage.kf.cancelDownloadTask()
+    }
+
+    func setIsLiked(_ isLiked: Bool) {
+        let likedImage = isLiked ? UIImage(named: "LikeOn") : UIImage(named: "LikeOff")
+        likeButton.setImage(likedImage, for: .normal)
+    }
+
+    @IBAction private func likeButtonClick(_ sender: Any) {
+        delegate?.imagesListCellDidTapLike(self)
     }
 }

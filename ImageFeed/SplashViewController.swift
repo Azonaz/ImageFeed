@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let oAuth2Service = OAuth2Service.shared
@@ -79,7 +78,7 @@ extension SplashViewController {
                 self.fetchProfile(token: token)
             case .failure:
                 UIBlockingProgressHUD.dismiss()
-                showAuthAlert()
+                self.showAuthAlert()
             }
         }
     }
@@ -90,10 +89,10 @@ extension SplashViewController {
             UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let profile):
-                fetchProfileImageURL(userName: profile.userName, token: token)
+                self.fetchProfileImageURL(userName: profile.userName, token: token)
                 self.switchToTabBarController()
             case .failure:
-               showAuthAlert()
+                self.showAuthAlert()
             }
         }
     }

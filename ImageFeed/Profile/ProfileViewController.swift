@@ -4,6 +4,7 @@ import Kingfisher
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     private lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
@@ -43,7 +44,7 @@ final class ProfileViewController: UIViewController {
         let button = UIButton.systemButton(
             with: UIImage(named: "LogOut") ?? UIImage(),
             target: self,
-            action: nil
+            action: #selector(didTapLogoutButton)
         )
         button.tintColor = .ypRed
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -109,8 +110,8 @@ final class ProfileViewController: UIViewController {
                                                constant: -24).isActive = true
     }
 
-    private func didTapLogoutButton() {
-
+    @objc private func didTapLogoutButton() {
+        showLogOutAlert()
     }
 
     private func updateProfileDetails(profile: Profile?) {
@@ -130,5 +131,23 @@ final class ProfileViewController: UIViewController {
         let placeholderImage = UIImage(systemName: "no_avatar")
         avatarImage.kf.indicatorType = .activity
         avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
+    }
+
+    private func showLogOutAlert() {
+        let model = AlertModel(title: "Пока, пока!",
+                               message: "Уверены, что хотите выйти?",
+                               firstButtonText: "Да",
+                               secondButtonText: "Нет",
+                               firstButtonCompletion: {[weak self] in
+            guard let self else { return }
+            WebViewViewController.cleanData()
+            self.oAuth2TokenStorage.removeToken()
+            guard let window = UIApplication.shared.windows.first else {
+                assertionFailure("Error")
+                return
+            }
+            window.rootViewController = SplashViewController()},
+                               secondButtonCompletion: { })
+        AlertPresenter.showAlert(in: self, model: model)
     }
 }

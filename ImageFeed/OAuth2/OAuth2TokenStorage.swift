@@ -3,6 +3,7 @@ import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage {
     private let keychainWrapper = KeychainWrapper.standard
+    static let shared = OAuth2TokenStorage()
 
     private enum Keys: String {
         case token = "com.imagefeed.authkey"
@@ -16,5 +17,9 @@ final class OAuth2TokenStorage {
             guard let newValue else { return }
             keychainWrapper.set(newValue, forKey: Keys.token.rawValue)
         }
+    }
+
+    func removeToken() {
+        keychainWrapper.removeObject(forKey: Keys.token.rawValue)
     }
 }

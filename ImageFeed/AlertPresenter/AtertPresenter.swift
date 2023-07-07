@@ -6,20 +6,37 @@ final class AlertPresenter {
         let alert = UIAlertController(title: model.title,
                                       message: model.message,
                                       preferredStyle: .alert)
-        let action = UIAlertAction(title: model.buttonText,
-                                   style: .default) { _ in
-            model.completion()
+        if let firstButtonText = model.firstButtonText {
+            let firstButtonAction = UIAlertAction(title: firstButtonText, style: .default) { _ in
+                model.firstButtonCompletion()
         }
-        alert.addAction(action)
+            alert.addAction(firstButtonAction)
+        }
+        if let secondButtonText = model.secondButtonText {
+            let secondButtonAction = UIAlertAction(title: secondButtonText, style: .cancel) { _ in
+                model.secondButtonCompletion()
+        }
+            alert.addAction(secondButtonAction)
+        }
         vc.present(alert, animated: true, completion: nil)
     }
 }
 
 enum Alert {
     static let alertAuth = AlertModel(
-        title: "Что-то пошло не так(",
+        title: "Что-то пошло не так",
         message: "Не удалось войти в систему",
-        buttonText: "OK",
-        completion: { }
+        firstButtonText: "OK",
+        secondButtonText: nil,
+        firstButtonCompletion: { },
+        secondButtonCompletion: { }
+    )
+    static let alertShowImage = AlertModel(
+        title: "Что-то пошло не так",
+        message: "Не удалось загрузить изображение",
+        firstButtonText: "OK",
+        secondButtonText: nil,
+        firstButtonCompletion: { },
+        secondButtonCompletion: { }
     )
 }
