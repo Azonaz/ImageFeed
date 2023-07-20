@@ -40,3 +40,13 @@ enum Alert {
         secondButtonCompletion: { }
     )
 }
+
+func logOutAlert(firstButtonCompletion: @escaping() -> Void) -> AlertModel {
+    return AlertModel(title: "Пока, пока!",
+                           message: "Уверены, что хотите выйти?",
+                           firstButtonText: "Да",
+                           secondButtonText: "Нет",
+                           firstButtonCompletion: firstButtonCompletion,
+                      secondButtonCompletion: { }
+    )
+}

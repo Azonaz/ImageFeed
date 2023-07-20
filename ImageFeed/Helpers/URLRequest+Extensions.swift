@@ -41,34 +41,9 @@ enum URLRequests {
         )
     }
 
-    static func authPage() -> URLRequest {
-        return URLRequest.makeHTTPRequest(
-            path: "oauth/authorize",
-            httpMethod: .get,
-            baseURL: unsplashAuthorizeURL,
-            queryItems: [
-                URLQueryItem(name: "client_id", value: accessKey),
-                URLQueryItem(name: "redirect_uri", value: redirectURI),
-                URLQueryItem(name: "response_type", value: "code"),
-                URLQueryItem(name: "scope", value: accessScope)
-            ]
-        )
-    }
+    
 
-    static func authToken(by code: String) -> URLRequest {
-        return URLRequest.makeHTTPRequest(
-            path: "oauth/token",
-            httpMethod: .post,
-            baseURL: unsplashAuthorizeURL,
-            queryItems: [
-                URLQueryItem(name: "client_id", value: accessKey),
-                URLQueryItem(name: "client_secret", value: secretKey),
-                URLQueryItem(name: "redirect_uri", value: redirectURI),
-                URLQueryItem(name: "code", value: code),
-                URLQueryItem(name: "grant_type", value: "authorization_code")
-            ]
-        )
-    }
+    
 
     static func photos(page: Int, perPage: Int, token: String) -> URLRequest {
         return URLRequest.makeHTTPRequest(

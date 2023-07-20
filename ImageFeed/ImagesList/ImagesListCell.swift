@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 protocol ImagesListCellDelegate: AnyObject {
     func imagesListCellDidTapLike(_ cell: UITableViewCell)
@@ -12,6 +13,13 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var cellImage: UIImageView!
     weak var delegate: ImagesListCellDelegate?
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
+    }()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,10 +43,32 @@ final class ImagesListCell: UITableViewCell {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
     }
+    
+    func configCell(photo: Photo, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        let datePhoto = (photo.createdAt != nil) ? dateFormatter.string(from: photo.createdAt!) : ""
+        let likedImage = photo.isLiked ? UIImage(named: "LikeOn") : UIImage(named: "LikeOff")
+        likeButton.isSelected = photo.isLiked
+        likeButton.setImage(likedImage, for: .normal)
+        dateLabel.text = datePhoto
+        guard let url = URL(string: photo.thumbImageURL) else { return }
+        let placeholder = UIImage(named: "imagePlaceholder") ?? UIImage()
+        cellImage.kf.indicatorType = .activity
+        cellImage.kf.setImage(with: url, placeholder: placeholder) { [weak self] result in
+                    guard let self else { return }
+            switch result {
+            case .success():
+                completion(.success(()))
+            case .failure(let error):
+                self.cellImage.image = UIImage(named: "imagePlaceholder")
+                completion(.failure(error))
+            }
+                }
+    }
 
     func setIsLiked(_ isLiked: Bool) {
         let likedImage = isLiked ? UIImage(named: "LikeOn") : UIImage(named: "LikeOff")
         likeButton.setImage(likedImage, for: .normal)
+        likeButton.isSelected = isLiked
     }
 
     @IBAction private func likeButtonClick(_ sender: Any) {

@@ -4,7 +4,7 @@ import Kingfisher
 final class SingleImageViewController: UIViewController {
     var imageURL: URL?
 
-    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

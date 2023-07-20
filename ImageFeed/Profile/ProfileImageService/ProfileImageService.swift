@@ -31,7 +31,7 @@ final class ProfileImageService {
             case .failure(let error):
                 self.usedToken = nil
                 completion(.failure(error))
-                self.task = nil
+             //   self.task = nil
             }
             self.task = nil
         }
