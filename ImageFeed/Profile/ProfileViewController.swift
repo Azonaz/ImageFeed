@@ -9,10 +9,6 @@ protocol ProfileViewControllerProtocol: AnyObject {
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     lazy var presenter: ProfileViewPresenterProtocol = ProfileViewPresenter(view: self)
- //   private let profileService = ProfileService.shared
- //   private let profileImageService = ProfileImageService.shared
- //   private let oAuth2TokenStorage = OAuth2TokenStorage.shared
-  //  private var profileImageServiceObserver: NSObjectProtocol?
     lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
@@ -71,16 +67,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         addLoginNameLabel()
         addDescriptionLabel()
         addLogoutButton()
-      //  updateProfileDetails(profile: profileService.profile)
-     //   presenter?.profileImageObserver()
-//        profileImageServiceObserver = NotificationCenter.default.addObserver(
-//            forName: ProfileImageService.didChangeNotification,
-//            object: nil,
-//            queue: .main) { [weak self] _ in
-//                guard let self else { return }
-//                self.updateAvatar()
-//            }
-    //    updateAvatar()
         presenter.viewDidLoad()
     }
 
@@ -152,24 +138,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
                     },
                                        secondButtonCompletion: { })
                 AlertPresenter.showAlert(in: self, model: model)
-//        AlertPresenter.showAlert(in: self, model: .logOutAlert(firstButtonCompletion: { [weak self] in
-//            guard let self else { return }
-//            self.presenter?.cleanData()
-        //    self.presentSplashViewController()
-//            guard let window = UIApplication.shared.windows.first else {
-//                assertionFailure()
-//                return
-//            }
-//            window.rootViewController = SplashViewController()
-//        }
-//                                                              ))
-//
     }
-   
-//    private func presentSplashViewController() {
-//        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-//        let viewController = SplashViewController()
-//        window.rootViewController = viewController
-//    }
+
 
 }
