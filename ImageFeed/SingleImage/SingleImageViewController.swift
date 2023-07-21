@@ -87,6 +87,6 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
 
     private func showImageAlert() {
-        AlertPresenter.showAlert(in: presentedViewController ?? self, model: Alert.alertShowImage)
+        AlertPresenter.showAlert(in: presentedViewController ?? self, model: AlertModel.alertShowImage)
     }
 }

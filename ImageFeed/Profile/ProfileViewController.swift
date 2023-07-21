@@ -1,14 +1,14 @@
 import UIKit
 import Kingfisher
 
-public protocol ProfileViewControllerProtocol: AnyObject {
-    var presenter: ProfileViewPresenterProtocol? { get set }
+protocol ProfileViewControllerProtocol: AnyObject {
+ //   var presenter: ProfileViewPresenterProtocol? { get set }
     func updateAvatar(url: URL?)
     func updateProfileDetails(profile: Profile?)
 }
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
-    var presenter: ProfileViewPresenterProtocol?
+    lazy var presenter: ProfileViewPresenterProtocol = ProfileViewPresenter(view: self)
  //   private let profileService = ProfileService.shared
  //   private let profileImageService = ProfileImageService.shared
  //   private let oAuth2TokenStorage = OAuth2TokenStorage.shared
@@ -81,7 +81,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
 //                self.updateAvatar()
 //            }
     //    updateAvatar()
-        presenter?.viewDidLoad()
+        presenter.viewDidLoad()
     }
 
     private func addAvatarImage() {
@@ -140,24 +140,36 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         avatarImage.kf.indicatorType = .activity
         avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
     }
-
-    @objc private func showLogOutAlert() {
-       
+    
+    private func showLogOutAlert() {
         let model = AlertModel(title: "Пока, пока!",
-                               message: "Уверены, что хотите выйти?",
-                               firstButtonText: "Да",
-                               secondButtonText: "Нет",
-                               firstButtonCompletion: {[weak self] in
-            guard let self else { return }
-            self.presenter?.cleanData()
-        //    WebViewViewController.cleanData()
-         //   self.oAuth2TokenStorage.removeToken()
-            guard let window = UIApplication.shared.windows.first else {
-                assertionFailure("Error")
-                return
-            }
-            window.rootViewController = SplashViewController()},
-                               secondButtonCompletion: { })
-        AlertPresenter.showAlert(in: self, model: model)
+                                       message: "Уверены, что хотите выйти?",
+                                       firstButtonText: "Да",
+                                       secondButtonText: "Нет",
+                                       firstButtonCompletion: {[weak self] in
+                    guard let self else { return }
+            self.presenter.cleanData()
+                    },
+                                       secondButtonCompletion: { })
+                AlertPresenter.showAlert(in: self, model: model)
+//        AlertPresenter.showAlert(in: self, model: .logOutAlert(firstButtonCompletion: { [weak self] in
+//            guard let self else { return }
+//            self.presenter?.cleanData()
+        //    self.presentSplashViewController()
+//            guard let window = UIApplication.shared.windows.first else {
+//                assertionFailure()
+//                return
+//            }
+//            window.rootViewController = SplashViewController()
+//        }
+//                                                              ))
+//
     }
+   
+//    private func presentSplashViewController() {
+//        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+//        let viewController = SplashViewController()
+//        window.rootViewController = viewController
+//    }
+
 }

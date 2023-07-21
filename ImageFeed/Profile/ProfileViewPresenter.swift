@@ -1,30 +1,39 @@
 import UIKit
 
-public protocol ProfileViewPresenterProtocol {
+protocol ProfileViewPresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
+    var profile: Profile? { get }
+    var avatarURL: URL? { get }
   //  var profileImageServiceObserver: NSObjectProtocol? { get set }
-    func viewDidLoad()
+   func viewDidLoad()
   //  func profileImageObserver()
  //   func showLogOutAlert(vc: UIViewController)
     func cleanData()
 }
 
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
-    
-    
     weak var view: ProfileViewControllerProtocol?
     var profileImageServiceObserver: NSObjectProtocol?
     private let oAuth2TokenStorage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private var avatarURL: URL? {
-        guard let avatarURL = profileImageService.avatarURL else { return nil}
-        return URL(string: avatarURL)
+    var profile: Profile?{
+        profileService.profile
+    }
+    var avatarURL: URL? {
+        URL(string: profileImageService.avatarURL ?? String())
+//        guard let avatarURL = profileImageService.avatarURL else { return nil}
+//        return URL(string: avatarURL)
+    }
+    
+    init(
+        view: ProfileViewControllerProtocol) {
+        self.view = view
     }
     
     func viewDidLoad() {
-        view?.updateAvatar(url: avatarURL)
         view?.updateProfileDetails(profile: profileService.profile)
+        view?.updateAvatar(url: avatarURL)
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
             object: nil,
@@ -38,8 +47,10 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     func cleanData() {
         WebViewViewController.cleanData()
         oAuth2TokenStorage.removeToken()
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Error")
+            return
+        }
+        window.rootViewController = SplashViewController()
     }
-    
-    
-    
 }

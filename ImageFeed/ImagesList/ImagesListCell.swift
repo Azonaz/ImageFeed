@@ -53,16 +53,16 @@ final class ImagesListCell: UITableViewCell {
         guard let url = URL(string: photo.thumbImageURL) else { return }
         let placeholder = UIImage(named: "imagePlaceholder") ?? UIImage()
         cellImage.kf.indicatorType = .activity
-        cellImage.kf.setImage(with: url, placeholder: placeholder) { [weak self] result in
-                    guard let self else { return }
-            switch result {
-            case .success():
-                completion(.success(()))
-            case .failure(let error):
-                self.cellImage.image = UIImage(named: "imagePlaceholder")
-                completion(.failure(error))
-            }
-                }
+//        cellImage.kf.setImage(with: url, placeholder: placeholder) { [weak self] result in
+//                    guard let self else { return }
+//            switch result {
+//            case .success():
+//                completion(.success(()))
+//            case .failure(let error):
+//                self.cellImage.image = UIImage(named: "imagePlaceholder")
+//                completion(.failure(error))
+//            }
+//                }
     }
 
     func setIsLiked(_ isLiked: Bool) {
