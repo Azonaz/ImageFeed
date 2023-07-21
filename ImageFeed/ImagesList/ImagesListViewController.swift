@@ -75,7 +75,7 @@ extension ImagesListViewController: UITableViewDataSource {
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {
-    func imagesListCellDidTapLike(_ cell: UITableViewCell) {
+    func imagesListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell),
               let presenter,
               let imagesListCell = cell as? ImagesListCell else { return }

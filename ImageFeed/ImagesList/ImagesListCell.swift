@@ -2,7 +2,7 @@ import UIKit
 import Kingfisher
 
 protocol ImagesListCellDelegate: AnyObject {
-    func imagesListCellDidTapLike(_ cell: UITableViewCell)
+    func imagesListCellDidTapLike(_ cell: ImagesListCell)
 }
 
 final class ImagesListCell: UITableViewCell {
@@ -16,8 +16,10 @@ final class ImagesListCell: UITableViewCell {
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
+        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.locale = Locale(identifier: "ru_RU")
+      //  formatter.dateStyle = .long
+      //  formatter.timeStyle = .none
         return formatter
     }()
 
@@ -62,13 +64,13 @@ final class ImagesListCell: UITableViewCell {
 //                self.cellImage.image = UIImage(named: "imagePlaceholder")
 //                completion(.failure(error))
 //            }
-//                }
+       //         }
     }
 
     func setIsLiked(_ isLiked: Bool) {
         let likedImage = isLiked ? UIImage(named: "LikeOn") : UIImage(named: "LikeOff")
         likeButton.setImage(likedImage, for: .normal)
-        likeButton.isSelected = isLiked
+    //    likeButton.isSelected = isLiked
     }
 
     @IBAction private func likeButtonClick(_ sender: Any) {

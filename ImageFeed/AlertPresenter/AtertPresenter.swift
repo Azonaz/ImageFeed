@@ -21,4 +21,3 @@ final class AlertPresenter {
         vc.present(alert, animated: true, completion: nil)
     }
 }
-
