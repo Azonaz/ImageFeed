@@ -13,34 +13,53 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var cellImage: UIImageView!
     weak var delegate: ImagesListCellDelegate?
-   
-       override func awakeFromNib() {
-           super.awakeFromNib()
-           gradientLayer = CAGradientLayer()
-           if let gradient1 = UIColor.YPGradient1?.cgColor, let gradient2 = UIColor.YPGradient2?.cgColor {
-               gradientLayer.colors = [gradient1, gradient2]
-           }
-           gradientLayer.locations = [0.0, 1.0]
-           gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight,
-                                        width: cellImage.bounds.width, height: gradientHeight)
-           cellImage.layer.insertSublayer(gradientLayer, at: 0)
-       }
 
-       override func layoutSubviews() {
-           super.layoutSubviews()
-           gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight,
-                                        width: cellImage.bounds.width, height: gradientHeight)
-       }
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.locale = Locale(identifier: "ru_RU")
+        return formatter
+    }()
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        gradientLayer = CAGradientLayer()
+        if let gradient1 = UIColor.YPGradient1?.cgColor, let gradient2 = UIColor.YPGradient2?.cgColor {
+            gradientLayer.colors = [gradient1, gradient2]
+        }
+        gradientLayer.locations = [0.0, 1.0]
+        cellImage.layer.insertSublayer(gradientLayer, at: 0)
+    }
 
-       override func prepareForReuse() {
-           super.prepareForReuse()
-           cellImage.kf.cancelDownloadTask()
-       }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientLayer.frame = CGRect(x: 0, y: cellImage.bounds.height - gradientHeight,
+                                     width: cellImage.bounds.width, height: gradientHeight)
+    }
 
-       func setIsLiked(_ isLiked: Bool) {
-           let likedImage = isLiked ? UIImage(named: "LikeOn") : UIImage(named: "LikeOff")
-           likeButton.setImage(likedImage, for: .normal)
-       }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImage.kf.cancelDownloadTask()
+    }
+
+    func configCell(with photo: Photo) {
+        let likedImage = getLikeImage(isLiked: photo.isLiked)
+            likeButton.setImage(likedImage, for: .normal)
+            dateLabel.text = (photo.createdAt != nil) ? dateFormatter.string(from: photo.createdAt!) : ""
+            guard let url = URL(string: photo.thumbImageURL) else { return }
+        let placeholder: UIImage = .placeholderImage
+            cellImage.kf.indicatorType = .activity
+            cellImage.kf.setImage(with: url, placeholder: placeholder)
+        }
+    
+    func setIsLiked(_ isLiked: Bool) {
+        let likeImage = getLikeImage(isLiked: isLiked)
+        likeButton.setImage(likeImage, for: .normal)
+    }
+    
+    private func getLikeImage(isLiked: Bool) -> UIImage {
+        return isLiked ? .activeLike : .inactiveLike
+    }
 
     @IBAction private func likeButtonClick(_ sender: Any) {
         delegate?.imagesListCellDidTapLike(self)

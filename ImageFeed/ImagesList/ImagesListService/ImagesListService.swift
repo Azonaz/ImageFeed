@@ -74,15 +74,7 @@ import UIKit
                     DispatchQueue.main.async {
                         if let index = self.photos.firstIndex(where: { $0.id == photoId}) {
                             self.photos[index].isLiked = body.photo.isLiked
-    //                        let photo = self.photos[index]
-    //                        let newPhoto = Photo(id: photo.id,
-    //                                             size: photo.size,
-    //                                             createdAt: photo.createdAt,
-    //                                             welcomeDescription: photo.welcomeDescription,
-    //                                             thumbImageURL: photo.thumbImageURL,
-    //                                             largeImageURL: photo.largeImageURL,
-    //                                             isLiked: body.photo.isLiked)
-    //                        self.photos[index] = newPhoto
+
                         }
                         completion(.success(()))
                     }
