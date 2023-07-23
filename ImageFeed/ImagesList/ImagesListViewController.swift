@@ -2,20 +2,17 @@ import UIKit
 import Kingfisher
 
 protocol ImagesListViewControllerProtocol: AnyObject {
-    func configureTableView()
+    var photos: [Photo] { get set }
     func indexPath(for cell: ImagesListCell) -> IndexPath?
+    func performBatchUpdate(with indexPaths: [IndexPath])
 }
 
-final class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
     @IBOutlet private var tableView: UITableView!
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    private let imagesListService = ImagesListService.shared
-    private var photos: [Photo] = []
-    private var imagesListServiceObserver: NSObjectProtocol?
-    private var presenter: ImagesListPresenterProtocol?
-    
-    
+    var photos: [Photo] = []
+    var presenter: ImagesListPresenterProtocol?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -23,6 +20,7 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         presenter = ImagesListPresenter(view: self)
         presenter?.viewDidLoad()
     }
@@ -39,38 +37,16 @@ final class ImagesListViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
-    func updateTableViewAnimated() {
-                let oldCount = photos.count
-                let newCount = imagesListService.photos.count
-                photos = imagesListService.photos
-                if oldCount != newCount {
-                    tableView.performBatchUpdates {
-                        let indexPaths = (oldCount..<newCount).map { index in
-                            IndexPath(row: index, section: 0)
-                        }
-                        tableView.insertRows(at: indexPaths, with: .automatic)
-                    } completion: { _ in }
-                }
-            }
-        
-}
 
-extension ImagesListViewController: ImagesListViewControllerProtocol {
-    func configureTableView() {
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        imagesListServiceObserver = NotificationCenter.default.addObserver(
-            forName: ImagesListService.didChangeNotification,
-            object: nil,
-            queue: .main) { [weak self] _ in
-                self?.updateTableViewAnimated()
-            }
-    }
-      
+    func performBatchUpdate(with indexPaths: [IndexPath]) {
+            tableView.performBatchUpdates {
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            } completion: { _ in }
+        }
+    
     func indexPath(for cell: ImagesListCell) -> IndexPath? {
         return tableView.indexPath(for: cell)
     }
-    
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {
@@ -117,8 +93,6 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == photos.count - 1 {
-            imagesListService.fetchPhotosNextPage()
-        }
+        presenter?.tableViewWillDisplayCell(at: indexPath)
     }
 }

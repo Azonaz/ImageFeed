@@ -3,19 +3,44 @@ import Foundation
 protocol ImagesListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func didTapLike(for cell: ImagesListCell)
+    func imagesListServiseObserver()
+    func tableViewWillDisplayCell(at indexPath: IndexPath)
 }
 
 class ImagesListPresenter: ImagesListPresenterProtocol {
     private weak var view: ImagesListViewControllerProtocol?
     private let imagesListService = ImagesListService.shared
+    private var imagesListServiceObserver: NSObjectProtocol?
     
     init(view: ImagesListViewControllerProtocol) {
         self.view = view
     }
     
     func viewDidLoad() {
-        view?.configureTableView()
         imagesListService.fetchPhotosNextPage()
+        imagesListServiseObserver()
+    }
+    
+    func imagesListServiseObserver() {
+        imagesListServiceObserver = NotificationCenter.default.addObserver(
+            forName: ImagesListService.didChangeNotification,
+            object: nil,
+            queue: .main) { [weak self] _ in
+                guard let self else { return }
+                self.updateTableViewAnimated()
+            }
+    }
+    
+    func updateTableViewAnimated() {
+        let oldCount = view?.photos.count ?? 0
+            let newCount = imagesListService.photos.count
+            if oldCount != newCount {
+                view?.photos = imagesListService.photos
+                let indexPaths = (oldCount..<newCount).map { index in
+                    IndexPath(row: index, section: 0)
+                }
+                view?.performBatchUpdate(with: indexPaths)
+            }
     }
     
     func didTapLike(for cell: ImagesListCell) {
@@ -25,8 +50,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
         }
         UIBlockingProgressHUD.show()
         imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
-            guard let self = self else { return }
-            
+            guard self != nil else { return }
             switch result {
             case .success:
                 DispatchQueue.main.async {
@@ -40,4 +64,11 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
             }
         }
     }
+    
+    func tableViewWillDisplayCell(at indexPath: IndexPath) {
+        if let photosCount = view?.photos.count,
+            indexPath.row == photosCount - 1 {
+                    imagesListService.fetchPhotosNextPage()
+                }
+        }
 }

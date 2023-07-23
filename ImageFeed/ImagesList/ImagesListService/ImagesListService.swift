@@ -74,7 +74,6 @@ import UIKit
                     DispatchQueue.main.async {
                         if let index = self.photos.firstIndex(where: { $0.id == photoId}) {
                             self.photos[index].isLiked = body.photo.isLiked
-
                         }
                         completion(.success(()))
                     }

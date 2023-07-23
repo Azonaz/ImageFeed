@@ -41,10 +41,6 @@ enum URLRequests {
         )
     }
 
-    
-
-    
-
     static func photos(page: Int, perPage: Int, token: String) -> URLRequest {
         return URLRequest.makeHTTPRequest(
             path: "photos",

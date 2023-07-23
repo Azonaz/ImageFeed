@@ -4,10 +4,8 @@ protocol ProfileViewPresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
     var profile: Profile? { get }
     var avatarURL: URL? { get }
-  //  var profileImageServiceObserver: NSObjectProtocol? { get set }
+    
    func viewDidLoad()
-  //  func profileImageObserver()
- //   func showLogOutAlert(vc: UIViewController)
     func cleanData()
 }
 
@@ -17,19 +15,17 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private let oAuth2TokenStorage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    var profile: Profile?{
+    var profile: Profile? {
         profileService.profile
     }
     var avatarURL: URL? {
         URL(string: profileImageService.avatarURL ?? String())
-//        guard let avatarURL = profileImageService.avatarURL else { return nil}
-//        return URL(string: avatarURL)
     }
     
     init(
         view: ProfileViewControllerProtocol) {
         self.view = view
-    }
+        }
     
     func viewDidLoad() {
         view?.updateProfileDetails(profile: profileService.profile)

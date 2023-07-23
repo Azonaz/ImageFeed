@@ -2,7 +2,6 @@ import UIKit
 import Kingfisher
 
 protocol ProfileViewControllerProtocol: AnyObject {
- //   var presenter: ProfileViewPresenterProtocol? { get set }
     func updateAvatar(url: URL?)
     func updateProfileDetails(profile: Profile?)
 }
@@ -126,7 +125,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         avatarImage.kf.indicatorType = .activity
         avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
     }
-    
+
     private func showLogOutAlert() {
         let model = AlertModel(title: "Пока, пока!",
                                        message: "Уверены, что хотите выйти?",
@@ -139,6 +138,4 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
                                        secondButtonCompletion: { })
                 AlertPresenter.showAlert(in: self, model: model)
     }
-
-
 }

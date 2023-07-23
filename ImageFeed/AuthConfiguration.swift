@@ -16,7 +16,7 @@ struct AuthConfiguration {
     let baseURL: URL
     let authURL: URL
     let photoPerPage: Int
-    
+
     init(accessKeys: String,
          secretKeys: String,
          redirectURIS: String,
@@ -32,7 +32,7 @@ struct AuthConfiguration {
         self.authURL = authURL
         self.photoPerPage = photoPerPage
     }
-    
+
     static var standard: AuthConfiguration {
         return AuthConfiguration(accessKeys: accessKey,
                                  secretKeys: secretKey,
