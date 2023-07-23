@@ -8,11 +8,11 @@ protocol AuthHelperProtocol {
 
 class AuthHelper: AuthHelperProtocol {
     let configuration: AuthConfiguration
-    
+
     init(configuration: AuthConfiguration = .standard) {
         self.configuration = configuration
     }
-    
+
     func authRequest() -> URLRequest {
         return URLRequest.makeHTTPRequest(
             path: "oauth/authorize",
@@ -26,18 +26,19 @@ class AuthHelper: AuthHelperProtocol {
             ]
         )
     }
-    
+
     func code(from url: URL) -> String? {
         if let urlComponents = URLComponents(string: url.absoluteString),
            urlComponents.path == "/oauth/authorize/native",
            let items = urlComponents.queryItems,
            let codeItem = items.first(where: { $0.name == "code" })
-        { return codeItem.value
+        {
+            return codeItem.value
         } else {
             return nil
         }
     }
-    
+
     func authToken(by code: String) -> URLRequest {
         return URLRequest.makeHTTPRequest(
             path: "oauth/token",

@@ -69,6 +69,23 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         presenter.viewDidLoad()
     }
 
+    func updateProfileDetails(profile: Profile?) {
+        guard let profile else {
+            assertionFailure("No profile details")
+            return
+        }
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+
+    func updateAvatar(url: URL?) {
+        guard let url else { return }
+        let placeholderImage = UIImage(systemName: "no_avatar")
+        avatarImage.kf.indicatorType = .activity
+        avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
+    }
+
     private func addAvatarImage() {
         view.addSubview(avatarImage)
         avatarImage.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -105,37 +122,20 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
                                                constant: -24).isActive = true
     }
 
-    @objc private func didTapLogoutButton() {
-        showLogOutAlert()
-    }
-
-   func updateProfileDetails(profile: Profile?) {
-        guard let profile else {
-            assertionFailure("No profile details")
-            return
-        }
-        nameLabel.text = profile.name
-        loginNameLabel.text = profile.loginName
-        descriptionLabel.text = profile.bio
-    }
-
-    func updateAvatar(url: URL?) {
-        guard let url else { return }
-        let placeholderImage = UIImage(systemName: "no_avatar")
-        avatarImage.kf.indicatorType = .activity
-        avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
-    }
-
     private func showLogOutAlert() {
         let model = AlertModel(title: "Пока, пока!",
-                                       message: "Уверены, что хотите выйти?",
-                                       firstButtonText: "Да",
-                                       secondButtonText: "Нет",
-                                       firstButtonCompletion: {[weak self] in
-                    guard let self else { return }
+                               message: "Уверены, что хотите выйти?",
+                               firstButtonText: "Да",
+                               secondButtonText: "Нет",
+                               firstButtonCompletion: {[weak self] in
+            guard let self else { return }
             self.presenter.cleanData()
-                    },
-                                       secondButtonCompletion: { })
-                AlertPresenter.showAlert(in: self, model: model)
+        },
+                               secondButtonCompletion: { })
+        AlertPresenter.showAlert(in: self, model: model)
+    }
+
+    @objc private func didTapLogoutButton() {
+        showLogOutAlert()
     }
 }

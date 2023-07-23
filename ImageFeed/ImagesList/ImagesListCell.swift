@@ -7,12 +7,14 @@ protocol ImagesListCellDelegate: AnyObject {
 
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
-    private var gradientLayer: CAGradientLayer!
-    private let gradientHeight = 30.0
+    weak var delegate: ImagesListCellDelegate?
+
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var cellImage: UIImageView!
-    weak var delegate: ImagesListCellDelegate?
+
+    private var gradientLayer: CAGradientLayer!
+    private let gradientHeight = 30.0
 
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -20,7 +22,7 @@ final class ImagesListCell: UITableViewCell {
         formatter.locale = Locale(identifier: "ru_RU")
         return formatter
     }()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         gradientLayer = CAGradientLayer()
@@ -44,19 +46,19 @@ final class ImagesListCell: UITableViewCell {
 
     func configCell(with photo: Photo) {
         let likedImage = getLikeImage(isLiked: photo.isLiked)
-            likeButton.setImage(likedImage, for: .normal)
-            dateLabel.text = (photo.createdAt != nil) ? dateFormatter.string(from: photo.createdAt!) : ""
-            guard let url = URL(string: photo.thumbImageURL) else { return }
+        likeButton.setImage(likedImage, for: .normal)
+        dateLabel.text = (photo.createdAt != nil) ? dateFormatter.string(from: photo.createdAt!) : ""
+        guard let url = URL(string: photo.thumbImageURL) else { return }
         let placeholder: UIImage = .placeholderImage
-            cellImage.kf.indicatorType = .activity
-            cellImage.kf.setImage(with: url, placeholder: placeholder)
-        }
-    
+        cellImage.kf.indicatorType = .activity
+        cellImage.kf.setImage(with: url, placeholder: placeholder)
+    }
+
     func setIsLiked(_ isLiked: Bool) {
         let likeImage = getLikeImage(isLiked: isLiked)
         likeButton.setImage(likeImage, for: .normal)
     }
-    
+
     private func getLikeImage(isLiked: Bool) -> UIImage {
         return isLiked ? .activeLike : .inactiveLike
     }

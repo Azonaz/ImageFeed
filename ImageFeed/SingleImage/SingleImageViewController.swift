@@ -18,16 +18,6 @@ final class SingleImageViewController: UIViewController {
         setImage()
     }
 
-    @IBAction private func didTapBackButton() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction private func didTapShareButton(_ sender: UIButton) {
-        guard let image = imageView.image else { return }
-        let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        present(share, animated: true)
-    }
-
     private func setImage() {
         guard let url = imageURL else { return }
         UIBlockingProgressHUD.show()
@@ -63,9 +53,20 @@ final class SingleImageViewController: UIViewController {
         let contentOffsetY = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: contentOffsetX, y: contentOffsetY), animated: false)
     }
+
+    @IBAction private func didTapBackButton() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction private func didTapShareButton(_ sender: UIButton) {
+        guard let image = imageView.image else { return }
+        let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(share, animated: true)
+    }
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {
+
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }

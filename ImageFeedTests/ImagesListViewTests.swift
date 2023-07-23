@@ -14,11 +14,11 @@ let photoArrayStub: [Photo] = [Photo(
 
 final class ImagesListServiceSpy: ImagesListServiceProtocol {
     var photos: [ImageFeed.Photo] = photoArrayStub
-    var fetchPhotosNextPageCalled = false
+    var fetchPhotosNextPageCall = false
     var changeLikeCall = false
 
     func fetchPhotosNextPage() {
-        fetchPhotosNextPageCalled = true
+        fetchPhotosNextPageCall = true
     }
 
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
@@ -34,48 +34,43 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     func viewDidLoad() {
         viewDidLoadCalled = true
     }
-    
+
     func didTapLike(for cell: ImageFeed.ImagesListCell) {
     }
-    
+
     func imagesListServiseObserver() {
+    }
+
+    func tableViewWillDisplayCell(at indexPath: IndexPath) {
     }
 }
 
-final class ImagesListViewControllerSpy: ImagesListViewControllerProtocol {
-    
+final class ImagesListViewControllerSpy:
+    ImagesListViewControllerProtocol {
+
     var photos: [ImageFeed.Photo] = []
-    var getPhotosNextPageCalled = false
-    
-    func getPhotosNextPage() {
-            getPhotosNextPageCalled = true
-        }
-    func configureTableView() {
-    }
-    
-    func updateTableViewAnimated() {
-    }
-    
+
     func indexPath(for cell: ImageFeed.ImagesListCell) -> IndexPath? {
     return nil
+    }
+
+    func performBatchUpdate(with indexPaths: [IndexPath]) {
+
     }
 }
 
 final class ImageListTests: XCTestCase {
     func testViewControllerCallsViewDidLoad() {
-        //given
+        // given
         let viewController = ImagesListViewController()
         let presenter = ImagesListPresenterSpy()
         viewController.presenter = presenter
         presenter.view = viewController
-        
-        //when
+
+        // when
         _ = viewController.view
-        
-        //then
+
+        // then
         XCTAssertTrue(presenter.viewDidLoadCalled)
     }
-    
-    
-    
 }

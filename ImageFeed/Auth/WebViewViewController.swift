@@ -10,11 +10,12 @@ public protocol WebViewViewControllerProtocol: AnyObject {
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
 
+    var presenter: WebViewPresenterProtocol?
+    weak var delegate: WebViewViewControllerDelegate?
+    
     @IBOutlet private weak var webView: WKWebView!
     @IBOutlet private weak var progressView: UIProgressView!
 
-    var presenter: WebViewPresenterProtocol?
-    weak var delegate: WebViewViewControllerDelegate?
     private var estimatedProgressObservation: NSKeyValueObservation?
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

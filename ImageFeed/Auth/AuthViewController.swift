@@ -2,8 +2,8 @@ import UIKit
 
 final class AuthViewController: UIViewController {
 
-    private let showWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
+    private let showWebViewSegueIdentifier = "ShowWebView"
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent

@@ -4,29 +4,29 @@ protocol ProfileViewPresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
     var profile: Profile? { get }
     var avatarURL: URL? { get }
-    
-   func viewDidLoad()
+
+    func viewDidLoad()
     func cleanData()
 }
 
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
     var profileImageServiceObserver: NSObjectProtocol?
-    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
     var profile: Profile? {
         profileService.profile
     }
     var avatarURL: URL? {
         URL(string: profileImageService.avatarURL ?? String())
     }
-    
+    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+
     init(
         view: ProfileViewControllerProtocol) {
-        self.view = view
+            self.view = view
         }
-    
+
     func viewDidLoad() {
         view?.updateProfileDetails(profile: profileService.profile)
         view?.updateAvatar(url: avatarURL)
@@ -39,7 +39,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
             self.view?.updateAvatar(url: self.avatarURL)
         }
     }
-    
+
     func cleanData() {
         WebViewViewController.cleanData()
         oAuth2TokenStorage.removeToken()

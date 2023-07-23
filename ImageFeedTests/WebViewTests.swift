@@ -42,8 +42,10 @@ final class ImageFeedTests: XCTestCase {
         let presenter = WebViewPresenterSpy()
         viewController.presenter = presenter
         presenter.view = viewController
+
         // when
         _ = viewController.view
+
         // then
         XCTAssertTrue(presenter.viewDidLoadCalled)
     }
@@ -55,8 +57,10 @@ final class ImageFeedTests: XCTestCase {
         let presenter = WebViewPresenter(authHelper: authHelper)
         viewController.presenter = presenter
         presenter.view = viewController
+
         // when
         presenter.viewDidLoad()
+
         // then
         XCTAssertTrue(viewController.loadRequestCalled)
     }
@@ -66,8 +70,10 @@ final class ImageFeedTests: XCTestCase {
         let authHelper = AuthHelper()
         let presenter = WebViewPresenter(authHelper: authHelper)
         let progress: Float = 0.6
+
         // when
         let shouldHideProgress = presenter.shouldHideProgress(for: progress)
+
         // then
         XCTAssertFalse(shouldHideProgress)
     }
@@ -77,8 +83,10 @@ final class ImageFeedTests: XCTestCase {
         let authHelper = AuthHelper()
         let presenter = WebViewPresenter(authHelper: authHelper)
         let progress: Float = 0.6
+
         // when
         let shouldHideProgress = presenter.shouldHideProgress(for: progress)
+
         // then
         XCTAssertFalse(shouldHideProgress)
     }
@@ -87,8 +95,10 @@ final class ImageFeedTests: XCTestCase {
         // given
         let configuration = AuthConfiguration.standard
         let helper = AuthHelper(configuration: configuration)
+
         // when
         let urlString = helper.authRequest().url!.absoluteString
+
         // then
         XCTAssertTrue(urlString.contains(configuration.authURL.absoluteString))
         XCTAssertTrue(urlString.contains("oauth/authorize"))
@@ -106,8 +116,10 @@ final class ImageFeedTests: XCTestCase {
             URLQueryItem(name: "code", value: "test code")
         ]
         let url = urlComponents.url!
+
         // when
         let code = helper.code(from: url)
+ 
         // then
         XCTAssertEqual(code, "test code")
     }
