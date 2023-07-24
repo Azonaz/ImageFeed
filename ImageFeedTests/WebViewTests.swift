@@ -119,7 +119,7 @@ final class ImageFeedTests: XCTestCase {
 
         // when
         let code = helper.code(from: url)
- 
+
         // then
         XCTAssertEqual(code, "test code")
     }

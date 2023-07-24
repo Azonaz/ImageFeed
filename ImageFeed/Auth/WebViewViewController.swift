@@ -12,7 +12,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
 
     var presenter: WebViewPresenterProtocol?
     weak var delegate: WebViewViewControllerDelegate?
-    
+
     @IBOutlet private weak var webView: WKWebView!
     @IBOutlet private weak var progressView: UIProgressView!
 

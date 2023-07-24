@@ -9,11 +9,13 @@ protocol ImagesListPresenterProtocol: AnyObject {
 
 class ImagesListPresenter: ImagesListPresenterProtocol {
     private weak var view: ImagesListViewControllerProtocol?
-    private let imagesListService = ImagesListService.shared
+    private let imagesListService: ImagesListServiceProtocol
     private var imagesListServiceObserver: NSObjectProtocol?
 
-    init(view: ImagesListViewControllerProtocol) {
+    init(view: ImagesListViewControllerProtocol,
+         imagesListService: ImagesListServiceProtocol = ImagesListService.shared) {
         self.view = view
+        self.imagesListService = imagesListService
     }
 
     func viewDidLoad() {

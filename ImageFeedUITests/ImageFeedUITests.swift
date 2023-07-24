@@ -41,7 +41,7 @@ final class ImageFeedUITests: XCTestCase {
         let cell = tableView.children(matching: .cell).element(boundBy: 0)
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
     }
-    
+
     func testFeed() throws {
         // тестируем сценарий ленты
         let tableView = app.tables
