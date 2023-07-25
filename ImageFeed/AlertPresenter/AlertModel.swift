@@ -25,4 +25,13 @@ struct AlertModel {
         firstButtonCompletion: { },
         secondButtonCompletion: { }
     )
+
+    static var changeLikeError = AlertModel(
+        title: "Что-то пошло не так",
+        message: "Не удалось поставить/снять лайк",
+        firstButtonText: "OK",
+        secondButtonText: nil,
+        firstButtonCompletion: { },
+        secondButtonCompletion: { }
+    )
 }

@@ -5,6 +5,7 @@ protocol ImagesListViewControllerProtocol: AnyObject {
     var photos: [Photo] { get set }
     func indexPath(for cell: ImagesListCell) -> IndexPath?
     func performBatchUpdate(with indexPaths: [IndexPath])
+    func showAlert ()
 }
 
 final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
@@ -47,6 +48,10 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
 
     func indexPath(for cell: ImagesListCell) -> IndexPath? {
         return tableView.indexPath(for: cell)
+    }
+
+    func showAlert () {
+        AlertPresenter.showAlert(in: self, model: .changeLikeError)
     }
 }
 

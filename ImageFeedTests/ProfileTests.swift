@@ -1,7 +1,7 @@
 @testable import ImageFeed
 import XCTest
 
-final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
+final class ProfileViewPresenterSpy: ProfilePresenterProtocol {
     var view: ImageFeed.ProfileViewControllerProtocol?
     var profile: ImageFeed.Profile?
     var avatarURL: URL?
@@ -16,7 +16,7 @@ final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
 }
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
-    var presenter: ImageFeed.ProfileViewPresenterProtocol?
+    var presenter: ImageFeed.ProfilePresenterProtocol?
     var updateAvatarCall = false
     var updateProfileDetailsCall = false
 

@@ -7,7 +7,7 @@ protocol ProfileViewControllerProtocol: AnyObject {
 }
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
-    lazy var presenter: ProfileViewPresenterProtocol = ProfileViewPresenter(view: self)
+    lazy var presenter: ProfilePresenterProtocol = ProfileViewPresenter(view: self)
     lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")

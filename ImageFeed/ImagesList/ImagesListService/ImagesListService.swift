@@ -1,7 +1,7 @@
 import UIKit
 
 protocol ImagesListServiceProtocol {
-    var photos: [Photo] { get set }
+    var photos: [Photo] { get }
     func fetchPhotosNextPage()
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
 }
@@ -9,7 +9,7 @@ protocol ImagesListServiceProtocol {
 final class ImagesListService: ImagesListServiceProtocol {
     static let shared = ImagesListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-    var photos: [Photo] = []
+    private (set) var photos: [Photo] = []
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastLoadedPage: Int = 0

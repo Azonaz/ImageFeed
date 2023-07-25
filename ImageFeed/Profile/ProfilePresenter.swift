@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ProfileViewPresenterProtocol: AnyObject {
+protocol ProfilePresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
     var profile: Profile? { get }
     var avatarURL: URL? { get }
@@ -9,7 +9,7 @@ protocol ProfileViewPresenterProtocol: AnyObject {
     func cleanData()
 }
 
-final class ProfileViewPresenter: ProfileViewPresenterProtocol {
+final class ProfileViewPresenter: ProfilePresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
     var profileImageServiceObserver: NSObjectProtocol?
     var profile: Profile? {
@@ -22,10 +22,9 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
 
-    init(
-        view: ProfileViewControllerProtocol) {
-            self.view = view
-        }
+    init(view: ProfileViewControllerProtocol) {
+        self.view = view
+    }
 
     func viewDidLoad() {
         view?.updateProfileDetails(profile: profileService.profile)

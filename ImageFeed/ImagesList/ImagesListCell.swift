@@ -9,9 +9,9 @@ final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
     weak var delegate: ImagesListCellDelegate?
 
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var cellImage: UIImageView!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet private weak var cellImage: UIImageView!
 
     private var gradientLayer: CAGradientLayer!
     private let gradientHeight = 30.0

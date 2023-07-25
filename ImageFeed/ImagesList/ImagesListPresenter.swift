@@ -3,7 +3,7 @@ import Foundation
 protocol ImagesListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func didTapLike(for cell: ImagesListCell)
-    func imagesListServiseObserver()
+    func addImagesListServiseObserver()
     func tableViewWillDisplayCell(at indexPath: IndexPath)
 }
 
@@ -20,10 +20,10 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
 
     func viewDidLoad() {
         imagesListService.fetchPhotosNextPage()
-        imagesListServiseObserver()
+        addImagesListServiseObserver()
     }
 
-    func imagesListServiseObserver() {
+    func addImagesListServiseObserver() {
         imagesListServiceObserver = NotificationCenter.default.addObserver(
             forName: ImagesListService.didChangeNotification,
             object: nil,
@@ -34,14 +34,15 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
     }
 
     func updateTableViewAnimated() {
-        let oldCount = view?.photos.count ?? 0
+        guard let view = view else { return }
+        let oldCount = view.photos.count
         let newCount = imagesListService.photos.count
         if oldCount != newCount {
-            view?.photos = imagesListService.photos
+            view.photos = imagesListService.photos
             let indexPaths = (oldCount..<newCount).map { index in
                 IndexPath(row: index, section: 0)
             }
-            view?.performBatchUpdate(with: indexPaths)
+            view.performBatchUpdate(with: indexPaths)
         }
     }
 
@@ -51,8 +52,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
             return
         }
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
-            guard self != nil else { return }
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
             switch result {
             case .success:
                 DispatchQueue.main.async {
@@ -60,9 +60,9 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
                     cell.setIsLiked(photo.isLiked)
                 }
                 UIBlockingProgressHUD.dismiss()
-            case .failure(let error):
-                assertionFailure(error.localizedDescription)
+            case .failure(_):
                 UIBlockingProgressHUD.dismiss()
+                self.view?.showAlert()
             }
         }
     }
