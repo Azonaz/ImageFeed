@@ -4,7 +4,7 @@ import Kingfisher
 final class SingleImageViewController: UIViewController {
     var imageURL: URL?
 
-    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -18,20 +18,11 @@ final class SingleImageViewController: UIViewController {
         setImage()
     }
 
-    @IBAction private func didTapBackButton() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction private func didTapShareButton(_ sender: UIButton) {
-        guard let image = imageView.image else { return }
-        let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        present(share, animated: true)
-    }
-
     private func setImage() {
         guard let url = imageURL else { return }
         UIBlockingProgressHUD.show()
-        imageView.kf.setImage(with: url, placeholder: UIImage(named: "imagePlaceholder")) { [weak self] result in
+        let placeholder: UIImage = .placeholderImage
+        imageView.kf.setImage(with: url, placeholder: placeholder) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             guard let self else { return }
             switch result {
@@ -62,9 +53,20 @@ final class SingleImageViewController: UIViewController {
         let contentOffsetY = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: contentOffsetX, y: contentOffsetY), animated: false)
     }
+
+    @IBAction private func didTapBackButton() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction private func didTapShareButton(_ sender: UIButton) {
+        guard let image = imageView.image else { return }
+        let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(share, animated: true)
+    }
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {
+
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
@@ -87,6 +89,6 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
 
     private func showImageAlert() {
-        AlertPresenter.showAlert(in: presentedViewController ?? self, model: Alert.alertShowImage)
+        AlertPresenter.showAlert(in: presentedViewController ?? self, model: AlertModel.alertShowImage)
     }
 }

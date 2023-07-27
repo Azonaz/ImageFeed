@@ -1,12 +1,14 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
-    private lazy var avatarImage: UIImageView = {
+protocol ProfileViewControllerProtocol: AnyObject {
+    func updateAvatar(url: URL?)
+    func updateProfileDetails(profile: Profile?)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    lazy var presenter: ProfilePresenterProtocol = ProfileViewPresenter(view: self)
+    lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Avatar")
         imageView.contentMode = .scaleAspectFill
@@ -16,7 +18,7 @@ final class ProfileViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private lazy var nameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Екатерина Новикова"
         label.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
@@ -24,7 +26,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private lazy var loginNameLabel: UILabel = {
+    lazy var loginNameLabel: UILabel = {
         let label = UILabel()
         label.text = "@ekaterina_nov"
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -32,7 +34,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private lazy var descriptionLabel: UILabel = {
+    lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "Hello, world!"
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -40,13 +42,14 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private lazy var logoutButton: UIButton = {
+    lazy var logoutButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(named: "LogOut") ?? UIImage(),
             target: self,
             action: #selector(didTapLogoutButton)
         )
         button.tintColor = .ypRed
+        button.accessibilityIdentifier = "Logout"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -63,15 +66,24 @@ final class ProfileViewController: UIViewController {
         addLoginNameLabel()
         addDescriptionLabel()
         addLogoutButton()
-        updateProfileDetails(profile: profileService.profile)
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main) { [weak self] _ in
-                guard let self else { return }
-                self.updateAvatar()
-            }
-        updateAvatar()
+        presenter.viewDidLoad()
+    }
+
+    func updateProfileDetails(profile: Profile?) {
+        guard let profile else {
+            assertionFailure("No profile details")
+            return
+        }
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+
+    func updateAvatar(url: URL?) {
+        guard let url else { return }
+        let placeholderImage = UIImage(systemName: "no_avatar")
+        avatarImage.kf.indicatorType = .activity
+        avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
     }
 
     private func addAvatarImage() {
@@ -110,29 +122,6 @@ final class ProfileViewController: UIViewController {
                                                constant: -24).isActive = true
     }
 
-    @objc private func didTapLogoutButton() {
-        showLogOutAlert()
-    }
-
-    private func updateProfileDetails(profile: Profile?) {
-        guard let profile else {
-            assertionFailure("No profile details")
-            return
-        }
-        nameLabel.text = profile.name
-        loginNameLabel.text = profile.loginName
-        descriptionLabel.text = profile.bio
-    }
-
-    private func updateAvatar() {
-        guard let avatarURL = profileImageService.avatarURL,
-              let url = URL(string: avatarURL)
-        else { return }
-        let placeholderImage = UIImage(systemName: "no_avatar")
-        avatarImage.kf.indicatorType = .activity
-        avatarImage.kf.setImage(with: url, placeholder: placeholderImage)
-    }
-
     private func showLogOutAlert() {
         let model = AlertModel(title: "Пока, пока!",
                                message: "Уверены, что хотите выйти?",
@@ -140,14 +129,13 @@ final class ProfileViewController: UIViewController {
                                secondButtonText: "Нет",
                                firstButtonCompletion: {[weak self] in
             guard let self else { return }
-            WebViewViewController.cleanData()
-            self.oAuth2TokenStorage.removeToken()
-            guard let window = UIApplication.shared.windows.first else {
-                assertionFailure("Error")
-                return
-            }
-            window.rootViewController = SplashViewController()},
+            self.presenter.cleanData()
+        },
                                secondButtonCompletion: { })
         AlertPresenter.showAlert(in: self, model: model)
+    }
+
+    @objc private func didTapLogoutButton() {
+        showLogOutAlert()
     }
 }

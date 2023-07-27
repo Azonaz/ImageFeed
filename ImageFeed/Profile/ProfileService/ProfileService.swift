@@ -25,8 +25,8 @@ final class ProfileService {
                                        bio: body.bio ?? "")
                 completion(.success(self.profile!))
             case .failure(let error):
-                completion(.failure(error))
                 self.lastToken = nil
+                completion(.failure(error))
             }
             self.task = nil
         }

@@ -2,7 +2,7 @@ import UIKit
 
 final class SplashViewController: UIViewController {
     private let oAuth2Service = OAuth2Service.shared
-    private let oAuth2TokenStorage = OAuth2TokenStorage()
+    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private lazy var splashScreenLogo: UIImageView = {
@@ -33,7 +33,6 @@ final class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
-        showAuthAlert()
         addSplashScreenLogo()
     }
 
@@ -103,7 +102,7 @@ extension SplashViewController {
     }
 
     private func showAuthAlert() {
-        AlertPresenter.showAlert(in: presentedViewController ?? self, model: Alert.alertAuth)
+        AlertPresenter.showAlert(in: presentedViewController ?? self, model: .alertAuth)
     }
 }
 

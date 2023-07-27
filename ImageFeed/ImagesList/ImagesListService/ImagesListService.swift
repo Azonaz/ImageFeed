@@ -1,15 +1,27 @@
 import UIKit
 
-final class ImagesListService {
+protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get }
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
+}
+
+final class ImagesListService: ImagesListServiceProtocol {
     static let shared = ImagesListService()
-    private (set) var photos: [Photo] = []
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    private (set) var photos: [Photo] = []
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastLoadedPage: Int = 0
+
     private var token: String? {
         OAuth2TokenStorage.shared.token
     }
+
+    private lazy var dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        return formatter
+    }()
 
     private init() { }
 
@@ -42,7 +54,7 @@ final class ImagesListService {
         return photoResult.map {
             Photo(id: $0.id,
                   size: CGSize(width: $0.width, height: $0.height),
-                  createdAt: ISO8601DateFormatter().date(from: $0.createdAt),
+                  createdAt: dateFormatter.date(from: $0.createdAt),
                   welcomeDescription: $0.description,
                   thumbImageURL: $0.urls.thumb,
                   largeImageURL: $0.urls.full,
@@ -51,7 +63,8 @@ final class ImagesListService {
     }
 
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        guard task == nil, let token = token else { return }
+        assert(Thread.isMainThread)
+        guard let token else { return }
         let request = isLike ? URLRequests.likes(photoID: photoId, method: .post, token: token)
         : URLRequests.likes(photoID: photoId, method: .delete, token: token)
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<PhotoLikeResult, Error>) in
@@ -60,15 +73,7 @@ final class ImagesListService {
             case .success(let body):
                 DispatchQueue.main.async {
                     if let index = self.photos.firstIndex(where: { $0.id == photoId}) {
-                        let photo = self.photos[index]
-                        let newPhoto = Photo(id: photo.id,
-                                             size: photo.size,
-                                             createdAt: photo.createdAt,
-                                             welcomeDescription: photo.welcomeDescription,
-                                             thumbImageURL: photo.thumbImageURL,
-                                             largeImageURL: photo.largeImageURL,
-                                             isLiked: body.photo.isLiked)
-                        self.photos[index] = newPhoto
+                        self.photos[index].isLiked = body.photo.isLiked
                     }
                     completion(.success(()))
                 }
