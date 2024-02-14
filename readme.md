@@ -4,7 +4,6 @@
 
 - [Дизайн в Figma](https://tinyurl.com/image-feed-figma)
 - [Unsplash API](https://unsplash.com/documentation)
-- [Скринкаст](https://disk.yandex.ru/i/9_FyhSqlQHRkMQ)
 
 # Назначение и цели приложения
 
@@ -14,6 +13,10 @@
 
 - Просмотр бесконечной ленты картинок из Unsplash Editorial.
 - Просмотр краткой информации из профиля пользователя.
+
+# Скринкаст
+
+![imageFeed](https://github.com/Azonaz/ImageFeed/assets/125258194/62ed2435-165e-4ece-ae29-d61031a3553e)
 
 # Краткое описание приложения
 
